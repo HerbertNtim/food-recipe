@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Recipe Pipeline
 
 on:
   push:
@@ -11,6 +11,9 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
 
     steps:
       - name: Checkout code
@@ -25,8 +28,8 @@ jobs:
         uses: actions/cache@v4
         id: node_modules_cache
         with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          path: backend/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('backend/package-lock.json') }}
 
       - name: Install dependencies
         if: steps.node_modules_cache.outputs.cache-hit != 'true'
@@ -39,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-modules
-          path: node_modules
+          path: backend/node_modules
 
       - name: Lint code
         run: npm run lint
@@ -65,6 +68,9 @@ jobs:
   build:
     needs: lint
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
 
     steps:
       - name: Checkout code
@@ -79,15 +85,15 @@ jobs:
         uses: actions/cache@v4
         id: node_modules_cache
         with:
-            path: node_modules
-            key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          path: backend/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('backend/package-lock.json') }}
 
       - name: Download node_modules artifact
         if: steps.node_modules_cache.outputs.cache-hit != 'true'
         uses: actions/download-artifact@v4
         with:
           name: node-modules
-          path: node_modules
+          path: backend/node_modules
 
       - name: Run npm install to ensure all dependencies are installed
         run: npm install
