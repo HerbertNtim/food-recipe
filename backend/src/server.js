@@ -7,7 +7,7 @@ app.use(express.json());
 
 const PORT = ENV.PORT 
 
-app.get('/', (req, res) => {
+app.get('/food', (req, res) => {
   res.send('Hello, World!');  
 });
 

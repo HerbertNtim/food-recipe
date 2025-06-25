@@ -3,7 +3,7 @@ import { addFavorites, deleteFavorites, getFavorites } from '../controllers/favo
 
 const favoritesRoute = express.Router();
 
-favoritesRoute.get('/', getFavorites)
+favoritesRoute.get('/favorites/:userId', getFavorites)
 favoritesRoute.post('/favorites', addFavorites);
 favoritesRoute.delete('/favorites/:userId/:recipeId', deleteFavorites);
 
