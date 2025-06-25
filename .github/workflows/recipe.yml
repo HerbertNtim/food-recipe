@@ -101,7 +101,7 @@ jobs:
       - name: Build project
         id: build
         run: |
-          npm run build
+          npm run start
           echo "✅ Build completed successfully!"
       
       - name: Print build error
