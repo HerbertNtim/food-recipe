@@ -1,10 +1,10 @@
 import express from 'express';
-import { env } from './config/env.js';
+import { ENV } from './config/env.js';
 
 const app = express();
 app.use(express.json());
 
-const PORT = env.PORT 
+const PORT = ENV.PORT 
 
 app.get('/', (req, res) => {
   res.send('Hello, World!');  
